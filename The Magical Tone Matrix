@@ -1,0 +1,32 @@
+// Qn 1
+// Question 1
+	      
+function generate_list_of_note(letter_name, list_of_interval) {
+    const base_case = letter_name_to_midi_note(letter_name);
+    function generate_list_of_note_helper(list_of_interval, note_accumulate) {
+        return is_null(list_of_interval)
+               ? null
+               : pair(head(list_of_interval) + note_accumulate, generate_list_of_note_helper(
+                   tail(list_of_interval), head(list_of_interval) + note_accumulate));
+    }
+    return append(list(base_case),
+    generate_list_of_note_helper(list_of_interval, base_case));
+}
+
+const pentatonic_list_of_interval = list(2, 2, 3, 2, 3);
+
+// repeat_pattern from Lecture L2
+
+function repeat_pattern(n, list_of_interval, accumulated_list) {
+    return n === 0 ? accumulated_list 
+                    : repeat_pattern(n - 1, list_of_interval, 
+                    append(list_of_interval, accumulated_list));
+}
+    
+function repeated_scale(note, list_of_interval, n, duration, instrument) {
+    return map(note => instrument(note,duration), 
+    generate_list_of_note(note, repeat_pattern(n, list_of_interval, null)));
+}
+
+play(consecutively(repeated_scale("C4", pentatonic_list_of_interval,
+                                  2, 1, cello)));
