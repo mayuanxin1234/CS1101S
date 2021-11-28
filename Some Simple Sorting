@@ -1,0 +1,53 @@
+// Qn 1
+// put the first n elements of xs into a list
+function take(xs, n) {
+       return n === 0
+           ? null 
+           : pair(head(xs), take(tail(xs), n-1));
+}
+
+// drop the first n elements from list, return rest
+function drop(xs, n) {
+    return n === 0
+           ? xs 
+           : drop(tail(xs), n-1);
+}
+// Qn 2
+// given a non-empty list xs, returns the smallest item in xs
+function smallest(xs) {
+    return accumulate((x,y) => (x < y ? x : y),head(xs), xs);
+}
+// Qn 3
+// Removes the first instance of x from xs
+function remove(x, xs) {
+    // YOUR SOLUTION HERE
+    return is_null(xs)
+           ? null 
+           : head(xs) === x
+           ? tail(xs)
+           : pair(head(xs), remove(x, tail(xs)));
+}
+// Qn 4
+function selection_sort(xs) {
+    if(is_null(xs)) {
+        return null;
+    } else {
+        // We pick the smallest element, where should it go?
+        // What should we recurse on?
+        // YOUR SOLUTION HERE
+        return pair(smallest(xs), selection_sort(remove(smallest(xs), xs)));
+    }
+}
+
+function remove(x, xs) {
+    // YOUR SOLUTION HERE
+    return is_null(xs)
+           ? null 
+           : head(xs) === x
+           ? tail(xs)
+           : pair(head(xs), remove(x, tail(xs)));
+}
+
+function smallest(xs) {
+    return accumulate((x,y) => (x < y ? x : y),head(xs), xs);
+}
