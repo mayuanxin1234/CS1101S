@@ -1,0 +1,70 @@
+// Qn 1
+//The function mirror shows a rune next to its mirror image.
+	      
+function mirror(rune) {
+    return beside(rune, flip_horiz(rune));
+}
+
+
+//The function more_love takes a rune as
+//argument and returns a rune that shows	      
+//it next to a red heart.
+
+
+function more_love(rune) {
+    return beside(rune, red(heart));
+}
+
+show(more_love(mirror(sail)));
+// Qn 2
+function mosaic(rune1, rune2, rune3, rune4) {
+    return stack(
+        beside(rune4,rune1), 
+        beside(rune3, rune2));
+}
+
+
+// Test
+show(mosaic(rcross, sail, corner, nova));
+
+//Alternate solution
+//function mosaic(rune1, rune2, rune3, rune4) {
+    //return beside(
+        //stack(rune4,rune3), 
+        //stack(rune1, rune2));
+//}
+
+
+// Test
+//show(mosaic(rcross, sail, corner, nova));
+// Qn 3
+function mosaic(rune1, rune2, rune3, rune4) {
+    return stack(
+        beside(rune4,rune1), 
+        beside(rune3, rune2));
+}
+
+function upside_down_mosaic(rune1, rune2, rune3, rune4) {
+    return turn_upside_down(stack(
+        beside(rune4,rune1), 
+        beside(rune3, rune2)));
+}
+
+// Test
+show(upside_down_mosaic(rcross, sail, corner, nova));
+// Qn 4
+function mosaic(rune1, rune2, rune3, rune4) {
+    return stack(
+        beside(rune4,rune1), 
+        beside(rune3, rune2));
+}
+
+
+function transform_mosaic(rune1, rune2, rune3, rune4, make_cross) {
+    return make_cross(stack(
+        beside(rune4,rune1), 
+        beside(rune3, rune2)));
+}
+
+// Test
+show(transform_mosaic(rcross, sail, corner, nova, make_cross));
