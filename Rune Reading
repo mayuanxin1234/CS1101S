@@ -1,0 +1,40 @@
+// Qn 1
+function fractal(pic, n) {
+    return n===1
+    ? pic
+    :beside(pic,stack(fractal(pic, n-1), fractal(pic,(n-1))));
+}
+
+// Test
+show(fractal(make_cross(rcross), 5));
+
+// Qn 2
+function hook(frac) {
+ return quarter_turn_left(
+     beside(stack_frac(
+         (1-frac),blank, square), square));
+}
+
+// Test
+show(hook(1/5));
+// Qn 3
+function spiral(thickness, depth) {
+   return depth===0
+   ? blank
+   :stack_frac(thickness,hook((1/2)*thickness), 
+   quarter_turn_right(spiral(thickness, depth-1)));
+   
+    
+}
+
+
+function hook(frac) {
+ return quarter_turn_left(
+     beside(stack_frac(
+         (1-frac),blank, square), square));
+}
+
+// Test
+show(spiral(1/5,20));
+
+
