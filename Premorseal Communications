@@ -1,0 +1,110 @@
+// Qn 1
+// Task 1
+		  
+function noise_sound(duration) {
+    const wave = t => math_random() * 2 - 1;
+    return make_sound(wave, duration);
+}
+
+function cut_sound(sound, duration) {
+    /* replace the dummy with your answer */
+    return make_sound(get_wave(sound), duration);
+}
+
+// testing
+play(cut_sound(noise_sound(2), 1));
+// Qn 2
+// Task 2
+
+function sine_sound(freq, duration) {
+    return make_sound(t=> math_sin(2 * math_PI * freq * t),duration);
+}
+
+play(sine_sound(500, 1));
+// Qn 3
+// Task 3
+function sine_sound(freq, duration) {
+    return make_sound(t=> math_sin(2 * math_PI * freq * t),duration);
+}
+
+
+function two_consecutively(s1, s2) {
+    /* replace the dummy with your answer */
+    const wave1 = get_wave(s1);
+    const wave2 = get_wave(s2);
+    const dur1 = get_duration(s1);
+    const dur2 = get_duration(s2);
+    const new_wave = (t) => (t < dur1 ? wave1(t) : wave2(t - dur1));
+    return make_sound(new_wave, dur1 + dur2);
+  }
+ 
+
+const my_sine_1 = sine_sound(500, 1);
+const my_sine_2 = sine_sound(750, 1);
+
+// Play test sound
+play(two_consecutively(my_sine_1, my_sine_2));
+// Qn 4
+// Task 4
+
+function sine_sound(freq, duration) {
+    return make_sound(t=> math_sin(2 * math_PI * freq * t),duration);
+}
+
+function two_consecutively(s1, s2) {
+    /* replace the dummy with your answer */
+    const wave1 = get_wave(s1);
+    const wave2 = get_wave(s2);
+    const dur1 = get_duration(s1);
+    const dur2 = get_duration(s2);
+    const new_wave = t => t < dur1 ? wave1(t) : wave2(t-dur1);
+    return make_sound(new_wave, dur1 + dur2);
+}
+
+function consecutively(list_of_sounds) {
+    /* replace the dummy with your answer */
+    return accumulate(two_consecutively, silence_sound(0), list_of_sounds);
+}
+
+const my_sine_1 = sine_sound(500, 0.5);
+const my_sine_2 = sine_sound(750, 1);
+const my_sine_3 = sine_sound(625, 0.2);
+
+// Play test sound
+play(consecutively(list(my_sine_1, my_sine_2, my_sine_3)));
+// Qn 5
+// Task 5
+
+function sine_sound(freq, duration) {
+    return make_sound(freq=> math_sin(2 * math_PI * freq * duration),duration);
+} 
+
+function two_consecutively(s1, s2) {
+    /* replace the dummy with your answer */
+    const wave1 = get_wave(s1);
+    const wave2 = get_wave(s2);
+    const dur1 = get_duration(s1);
+    const dur2 = get_duration(s2);
+    const new_wave = t => t < dur1 ? wave1(t) : wave2(t-dur1);
+    return make_sound(new_wave, dur1 + dur2);
+}
+
+function consecutively(list_of_sounds) {
+    /* replace the dummy with your answer */
+    return accumulate(two_consecutively, silence_sound(0), list_of_sounds);
+}
+
+// Build distress signal 
+
+const silence_within_letters = silence_sound(0.125);
+const S_of_SOS = consecutively(list(sine_sound(800,0.125),silence_within_letters,
+sine_sound(800,0.125),silence_within_letters,
+sine_sound(800,0.125)));
+const O_of_SOS = consecutively(list(sine_sound(800,0.375),silence_within_letters,
+sine_sound(800,0.375),silence_within_letters,
+sine_sound(800,0.375)));
+const silence_SOS = silence_sound(0.375);
+const distress_signal = consecutively(list(S_of_SOS,silence_SOS,O_of_SOS,silence_SOS,S_of_SOS));
+
+// Play distress signal
+play(distress_signal);
