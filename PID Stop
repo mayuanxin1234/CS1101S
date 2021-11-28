@@ -1,0 +1,72 @@
+const left_motor = ev3_motorB();
+const right_motor = ev3_motorC();
+const our_motors = list(left_motor, right_motor);
+const init_speed = 500; // degrees per second
+const colorSensor = ev3_colorSensor();
+
+
+// Very important speech function to check that the robot is alive
+ev3_speak("I win.");
+
+
+// Returns number between 0 and 2
+// 0 denotes too far (r)white, 2 denotes black on track
+
+function get_curr_error() {
+    return 2 - math_log10(ev3_reflectedLightIntensity(colorSensor));
+}
+
+let kP = 60; // Proportional - the further from ideal path, the more correction
+const kI = 15; // Integral - the longer you are further from ideal path, the more correction
+const kD = 5; // Derivative - the faster you are leaving the ideal path, the more correction
+
+function PID() {
+    map(motor => ev3_motorSetSpeed(motor, init_speed), our_motors);
+    map(ev3_motorStart, our_motors);
+    
+    let left_speed = init_speed;
+    let right_speed = init_speed;
+    let sum = 0;
+    const dt = 0.1065;
+    let prev_error = get_curr_error();
+    while (true) {
+        const current_error = get_curr_error();
+        sum = sum + current_error * dt;
+        
+        const turn = (kP * current_error) + (kI * sum) + kD * (current_error - prev_error) / dt;
+        
+        left_speed = init_speed - turn;
+        right_speed = init_speed + turn;
+        
+        display(sum, "sum: ");
+        display(turn, "turn: ");
+        display(left_speed, "left: ");
+        display(right_speed, "right: ");        
+        
+        ev3_motorSetSpeed(left_motor, left_speed);
+        ev3_motorSetSpeed(right_motor, right_speed);
+        map(ev3_motorStart, our_motors);
+        
+        
+        
+        // It's time to sTahP
+        if (ev3_colorSensorGetColor(colorSensor) === 5) {
+            map(ev3_motorStop, our_motors);
+            break;
+        }
+        
+        prev_error = current_error;
+        kP = kP * 1.027875; // Increases the proportional constant to "match" the curvature of the spiral
+    }
+}
+
+PID();
+
+
+
+/*
+dump:
+current light intensity - prev sample intensity > 0 --> whiggle a bit right
+current intensity - prev intensity < 0 --> wiggle a bit left
+but i'm guessing it won't be that ez o_O
+*/
