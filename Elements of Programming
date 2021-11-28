@@ -1,0 +1,23 @@
+// Qn 1
+2 + 3
+// Qn 2
+25
+// Qn 3
+const foo = 10;
+const bar = 10 + 20;
+const foobar = (foo+bar);
+// After writing your solution, click on the airplane icon on the right panel.
+// After that click on the test case to run it, 
+// or click the run button above to run all test cases.
+// Qn 4
+function bar() {
+    return 20;
+}
+// Qn 5
+function square(x) {
+    return x * x;
+}
+
+function square_of_difference(x,y) {
+    return square(x-y);
+}
