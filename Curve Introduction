@@ -1,0 +1,39 @@
+// Qn 1 
+// Part 1
+// unit_line_at: number -> curve
+// Part 2
+function vertical_line(pt, length) {
+  return a => make_point(x_of(pt), a * length + y_of(pt));
+}
+
+// Part 3
+// vertical_line: (point,number) -> curve
+
+// Part 4
+draw_connected(200)(vertical_line(make_point(0.5,0.25), 0.5));
+// Qn 2
+function three_quarters(pt) {
+    return t => make_point(-math_sin(1.5 * math_PI * t) + x_of(pt),
+      -math_cos(1.5 * math_PI * t) + y_of(pt)
+    );
+}
+
+// Test
+draw_connected_full_view(200)(three_quarters(make_point(0.5, 0.25)));
+// Qn 3
+function s_generator(pt) {
+     return t => 
+     t < 0.5
+     ? make_point(
+       -0.25 * math_sin(3 * math_PI * (0.5-t)) + x_of(pt),
+       -0.25 * math_cos(3 * math_PI * (0.5-t)) + y_of(pt) + 0.25)
+     : make_point(
+       0.25 * math_sin((1.5 * math_PI * (t - 0.5)) / 0.5) + x_of(pt),
+       0.25 * math_cos((1.5 * math_PI * (t - 0.5)) / 0.5) + y_of(pt) - 0.25)
+       ;
+}
+
+// Test
+ draw_connected_full_view_proportional(200)(s_generator(make_point(0, 0)));
+
+
