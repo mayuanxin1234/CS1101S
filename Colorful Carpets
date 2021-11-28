@@ -1,0 +1,53 @@
+// Qn 1
+function besiden(n, rune) {
+   return n===1
+    ? rune
+    : beside_frac(1/n,rune,besiden(n-1,rune));
+}
+
+// Test
+show(besiden(7, heart));
+// Qn 2
+function besiden(n, rune) {
+   return n===1
+    ? rune
+    : beside_frac(1/n,rune,besiden(n-1,rune));
+}
+
+		
+function carpet(n, m, rune) {
+   return stackn(n,besiden(m,rune));
+}
+
+// test case:
+show(carpet(7, 5, heart));
+// Qn 3
+/*
+
+1. Each evaluation returns a 10x10 rune with same randomly generated color for each rune
+2. No
+3. Yes
+3. The evaluation of "random_colour(heart)))" would be delayed for normal order reduction.
+The random_color function would be called for each heart in the carpet, so each heart would
+be assigned a random color.
+
+*/
+
+// Qn 4
+function random_color_row (m,rune){
+    return m===1
+    ? random_color(rune)
+    :beside_frac(1/m, random_color(rune), random_color_row(m-1, rune));
+}
+
+function randomly_colored_carpet(n, m, rune) {
+    return n === 0
+    ? rune
+    : stack_frac(1 / n,
+    random_color_row(m, rune),
+    randomly_colored_carpet(n - 1, m, rune));
+}
+
+// test case    
+show(randomly_colored_carpet(10, 10, heart));
+// should produce a carpet as shown in the title picture of this quest.
