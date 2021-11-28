@@ -1,0 +1,110 @@
+// Qn 1
+ev3_speak("bob do something!");
+
+function sense_loop() {
+    const distance = ev3_ultrasonicSensorDistance(ultra_sensor);
+    display(distance / 10);
+    ev3_pause(1000);
+    sense_loop();
+}
+const ultra_sensor = ev3_ultrasonicSensor();
+sense_loop();
+// Qn 2
+const left_motor = ev3_motorB();
+const right_motor = ev3_motorC();
+const our_motors = list(left_motor, right_motor);
+const circumference = 18; // in cm.  measured by going one rotation;
+const speed = 180; // degrees per second
+
+const ultra_sensor = ev3_ultrasonicSensor();
+
+// Ultrasonic sensor stuff
+function get_dist() {
+     return ev3_ultrasonicSensorDistance(ultra_sensor) / 10;
+}
+
+function drive_till_obstacle(distance, time_step, speed) {
+    // ev3_runForTime(left_motor, time_step, 180);
+    // ev3_runForTime(right_motor, time_step, 180);
+    map(motor => ev3_motorSetSpeed(motor, speed), our_motors);
+    map(ev3_motorStart, our_motors);
+    ev3_pause(time_step);
+    if (get_dist() <= distance) {
+        map(ev3_motorStop, our_motors);
+        move(30, -speed, our_motors);
+    } else {
+        drive_till_obstacle(distance, time_step, speed);
+    }
+}
+
+ev3_speak("ora ora ora ora mooda mooda mooda mooda");
+
+drive_till_obstacle(10, 16, 500);
+// Qn 3
+
+const left_motor = ev3_motorB();
+const right_motor = ev3_motorC();
+const our_motors = list(left_motor, right_motor);
+const circumference = 18; // in cm.  measured by going one rotation;
+const speed = 180; // degrees per second
+
+const ultra_sensor = ev3_ultrasonicSensor();
+
+// Returns time required to travel distance at certain speed
+function travel_time(distance, speed) {
+    return 1000 * (360 * (distance / circumference)) / speed;
+}
+
+// move forward / backward distance. Use negative distance for reversing
+function move(distance, speed, motors) {
+    map(motor => ev3_motorSetSpeed(motor, speed), motors);
+    const time = travel_time(distance, math_abs(speed));
+    map(ev3_motorStart, motors);
+    ev3_pause(time);
+    map(ev3_motorStop, motors);
+}
+
+// Rotate robot in-place clockwise by angle degrees.
+// Negative angle to rotate anticlockwise
+function rotate(angle, speed, left_motor, right_motor) {
+    const wheel_distance = 13; // in cm. Represents diameter of rotation
+    const motors = list(left_motor, right_motor);
+    if (angle > 0) {
+        ev3_motorSetSpeed(left_motor, speed);
+        ev3_motorSetSpeed(right_motor, -speed);
+    } else {
+        ev3_motorSetSpeed(left_motor, -speed);
+        ev3_motorSetSpeed(right_motor, speed);
+    }
+    const distance = math_PI * wheel_distance * math_abs(angle) / 360;
+    const time = travel_time(distance, speed);
+    map(ev3_motorStart, motors);
+    ev3_pause(time);
+    map(ev3_motorStop, motors);
+}
+
+function get_dist() {
+     return ev3_ultrasonicSensorDistance(ultra_sensor) / 10;
+}
+
+function drive_around_obstacle(distance, time_step, speed) {
+    map(motor => ev3_motorSetSpeed(motor, speed), our_motors);
+    map(ev3_motorStart, our_motors);
+    ev3_pause(time_step);
+    if (get_dist() <= distance) {
+        map(ev3_motorStop, our_motors);
+        const hard_coded_distance = 50;
+        const direction = math_random() < 0.5 ? 90 : -90;
+        rotate(direction, speed, left_motor, right_motor);
+        move(hard_coded_distance,speed, our_motors);
+        rotate(-direction, speed, left_motor, right_motor);
+        move(10*hard_coded_distance, speed, our_motors);
+    } else {
+        drive_around_obstacle(distance, time_step, speed);
+    }
+}
+
+// Very important speech function to check that the robot is alive
+ev3_speak("Good morning world and all who inhabit it");
+
+drive_around_obstacle(10, 16, 200);
