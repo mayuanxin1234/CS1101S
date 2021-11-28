@@ -1,0 +1,54 @@
+// QN 1
+function alternating_ones1(a){
+        return pair(a, () => alternating_ones1(-a));
+}
+const alternating_ones = alternating_ones1(1); // YOUR SOLUTION HERE
+// Qn 2
+function alternating_ones1(a){
+        return pair(a, () => alternating_ones1(-a));
+}
+
+function make_alternating_stream(s) {
+
+    // YOUR SOLUTION HERE
+    return pair(head(s), () => pair(-1 * head(make_alternating_stream(stream_tail(s))), 
+    () => make_alternating_stream(stream_tail(stream_tail(s)))));
+
+}
+// QN 3
+
+
+function zip_streams(s1, s2) {
+    if(is_null(s1)) {
+        return s2;
+    } else if (is_null(s2)) {
+        return s1;
+    } else {
+    return pair(head(s1), () => pair(head(s2), () => zip_streams(stream_tail(s1), stream_tail(s2))));
+
+}
+}
+
+// Qn 4
+function every_other(s) {
+    return pair(head(s), () => every_other(stream_tail(stream_tail(s))));
+
+    
+
+}
+// Qn 5
+function partial_sums(s) {
+    return pair(head(s), () => add_streams(stream_tail(s), partial_sums(s)));
+}
+
+function add_streams(s1, s2) {
+if (is_null(s1)) {
+return s2;
+} else if (is_null(s2)) {
+return s1;
+} else {
+return pair(head(s1) + head(s2),
+() => add_streams(stream_tail(s1),
+stream_tail(s2)));
+}
+}
