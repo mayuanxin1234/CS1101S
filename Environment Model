@@ -1,0 +1,32 @@
+// Qn 1
+An environment is a sequence of frames
+// Qn 2
+A frame is a set of name bindings
+// Qn 3
+The interpreter looks up the variable in the frame that is enclosing the current frame
+// Qn 4
+The interpreter issues an error message "Name not declared".
+// Qn 5
+The interpreter uses the same environment in which the function application is evaluated
+// Qn 6
+The interpreter uses a new environment, which results from extending the environment stored in the 
+function object that the name f refers to
+// Qn 7
+Only the parameters of the function being called
+// Qn 8
+In the current frame if it has a binding of x or the closest surrounding frame that has a binding
+of x
+// Qn 9
+The environment in which the statement gets evaluated
+// Qn 10
+2
+// Qn 11
+10
+// Qn 12
+9
+// Qn 13
+4
+// Qn 14
+10
+// Qn 15
+3
