@@ -1,0 +1,329 @@
+// Qn 1
+// Question 1
+
+const WIDTH = 400;
+const HEIGHT = 300;
+
+function my_first_filter(ignore, dest) {
+    for (let i = 0; i < HEIGHT; i = i + 1) {
+        for (let j = 0; j < WIDTH; j = j + 1) {
+            // red
+            dest[i][j][0] = 0 + (i * (255 / HEIGHT));
+            //green
+            dest[i][j][1] = 0 + (j * (255 / WIDTH));
+            //blue
+            dest[i][j][2] = 255 - (i * (255 / HEIGHT)) - (j * (255 / WIDTH));
+            dest[i][j][3] = 255;
+            }
+    }
+}
+     
+install_filter(my_first_filter);
+
+set_dimensions(WIDTH, HEIGHT);
+start();
+
+/*left top corner dest[0][0]
+            //red
+            dest[i][j][0] = 0;
+            //green
+            dest[i][j][1] = 0;
+            //blue
+            dest[i][j][2] = 255;
+            dest[i][j][3] = 255;
+right top corner dest[0][400]
+
+            //red
+            dest[i][j][0] = 0;
+            //green
+            dest[i][j][1] = 255;
+            //blue
+            dest[i][j][2] = 0;
+            dest[i][j][3] = 255;
+            
+bottom left dest [300][0]
+//red
+            dest[i][j][0] = 255;
+            //green
+            dest[i][j][1] = 0;
+            //blue
+            dest[i][j][2] = 0;
+            dest[i][j][3] = 255;
+bottom right dest[300][400]
+//red
+            dest[i][j][0] = 255;
+            //green
+            dest[i][j][1] = 255;
+            //blue
+            dest[i][j][2] = 0;
+            dest[i][j][3] = 255;
+*/
+
+// Qn 2
+// Question 2
+
+const WIDTH = 400;
+const HEIGHT = 300;
+
+function copy(src, dest) {
+    for (let i = 0; i < HEIGHT; i = i + 1) {
+        for (let j = 0; j < WIDTH; j = j + 1) {
+           dest[i][j][0] = src[i][j][0];
+           dest[i][j][1] = src[i][j][1];
+           dest[i][j][2] = src[i][j][2];
+           dest[i][j][3] = src[i][j][3];
+        }
+    }
+}
+
+function crosshair(src, dest) {
+    // your program goes here
+for(let r = 25; r < HEIGHT && r < WIDTH;r = r + 50) {
+    for(let i = 0; i < HEIGHT; i = i + 1) {
+        for(let j = 0; j < WIDTH; j = j + 1) {
+            if(math_pow((j - (WIDTH / 2)), 2) 
+                + math_pow((i - (HEIGHT / 2)), 2) <= math_pow(r + 25, 2)
+                && math_pow((j - (WIDTH / 2)), 2) 
+                + math_pow((i - (HEIGHT / 2)), 2) >= math_pow(r, 2)) {
+            //blue
+            src[i][j][2] = 255;
+           } 
+        }
+    }
+}
+
+
+    for (let j = 0; j < WIDTH; j = j + 1) {
+        let i = HEIGHT / 2;
+            //red
+            src[i][j][0] = 255; 
+    }
+    
+    for (let i = 0; i < HEIGHT; i = i + 1) {
+        let j = WIDTH / 2;
+            //red
+            src[i][j][0] = 255; 
+    }
+    for (let i = 0; i < HEIGHT; i = i + 1) {
+        for (let j = 0; j < WIDTH; j = j + 1) {
+           dest[i][j][0] = src[i][j][0];
+           dest[i][j][1] = src[i][j][1];
+           dest[i][j][2] = src[i][j][2];
+           dest[i][j][3] = src[i][j][3];
+        }
+    }
+}
+
+install_filter(crosshair);
+
+set_dimensions(WIDTH, HEIGHT);
+start();
+// Qn 3
+// Question 3
+
+const WIDTH = 400;
+const HEIGHT = 300;
+
+function zoom(factor) {
+    // your solution here
+const mid_WIDTH = WIDTH / 2;
+const mid_HEIGHT = HEIGHT / 2; 
+return (src, dest) => {
+    for (let i = 0; i < HEIGHT; i = i + 1) {
+        for (let j = 0; j < WIDTH; j = j + 1) {
+            let column_zoomed = math_floor(j / factor) + mid_WIDTH - math_floor((WIDTH / factor) / 2);
+            let row_zoomed = math_floor(i / factor) + mid_HEIGHT - math_floor((HEIGHT / factor) / 2);
+            dest[i][j][0] = src[row_zoomed][column_zoomed][0]; 
+            dest[i][j][1] = src[row_zoomed][column_zoomed][1]; 
+            dest[i][j][2] = src[row_zoomed][column_zoomed][2]; 
+            dest[i][j][3] = src[row_zoomed][column_zoomed][3]; 
+      }
+    }
+   };
+}
+        
+
+install_filter(zoom(2));
+
+set_dimensions(WIDTH, HEIGHT);
+start();
+// Qn 4
+// Question 4
+
+const WIDTH = 400;
+const HEIGHT = 300;
+
+function flip_vertically(src, dest) {
+    for (let i = 0; i < HEIGHT; i = i + 1) {
+        for (let j = 0; j < WIDTH; j = j + 1) {
+            for (let k = 0; k < 4; k = k + 1) {
+                dest[i][j][k] = src[HEIGHT - 1 - i][j][k];
+            }
+        }
+    }
+}
+
+function color_invert(src, dest) {
+    for (let i = 0; i < HEIGHT; i = i + 1){
+        for (let j = 0; j < WIDTH; j = j + 1){
+            for (let c = 0; c < 4; c = c + 1) {
+                dest[i][j][c] = c < 3 ? 255 - src[i][j][c] : src[i][j][c];
+            }          
+        }
+    }
+}
+
+function zoom(factor) {
+    // your solution here
+const mid_WIDTH = WIDTH / 2;
+const mid_HEIGHT = HEIGHT / 2; 
+return (src, dest) => {
+    for (let i = 0; i < HEIGHT; i = i + 1) {
+        for (let j = 0; j < WIDTH; j = j + 1) {
+            let column_zoomed = math_floor(j / factor) + mid_WIDTH - math_floor((WIDTH / factor) / 2);
+            let row_zoomed = math_floor(i / factor) + mid_HEIGHT - math_floor((HEIGHT / factor) / 2);
+            dest[i][j][0] = src[row_zoomed][column_zoomed][0]; 
+            dest[i][j][1] = src[row_zoomed][column_zoomed][1]; 
+            dest[i][j][2] = src[row_zoomed][column_zoomed][2]; 
+            dest[i][j][3] = src[row_zoomed][column_zoomed][3]; 
+      }
+    }
+   };
+}
+        
+
+install_filter(zoom(2));
+
+set_dimensions(WIDTH, HEIGHT);
+start();
+
+
+function make_image() {
+    const img = [];
+    for (let i = 0; i < HEIGHT; i = i + 1) {
+        const row = [];
+        img[i] = row;
+        for (let j = 0; j < WIDTH; j = j + 1) {
+            const pixel = [];
+            row[j] = pixel;
+            for (let z = 0; z < 4; z = z + 1) {
+                pixel[z] = 255;
+            }
+        }             
+    }
+    return img;
+}
+
+function stack(filter1, filter2) {
+    const temp1 = make_image();
+    const temp2 = make_image();
+    return (src, dest) => {
+        const half_height = math_floor(HEIGHT / 2);
+        filter1(src, temp1);
+        filter2(src, temp2);
+        for (let i = 0; i < half_height; i = i + 1) {
+            dest[i] = temp1[i * 2];
+            dest[i + half_height] = temp2[i * 2];
+        }
+        // take last row from temp2, if HEIGHT is odd
+        for (let i = half_height * 2; i < HEIGHT; i = i + 1) {
+            dest[i] = temp2[i];
+        }
+    };
+}
+
+function beside(filter1, filter2) {    
+    // your program goes here
+    const temp1 = make_image();
+    const temp2 = make_image();
+    return (src, dest) => {
+        const half_width = math_floor(WIDTH / 2);
+        filter1(src, temp1);
+        filter2(src, temp2);
+        for (let i = 0; i < HEIGHT; i = i + 1){
+        for (let j = 0; j < half_width; j = j + 1) {
+            dest[i][j] = temp1[i][j * 2];
+            dest[i][j + half_width] = temp2[i][j * 2];
+        }
+        }
+        // take last column from temp2, if width is odd
+        for (let i = 0; i < HEIGHT; i = i + 1){
+        for (let j = half_width * 2; j < WIDTH; j = j + 1) {
+            dest[i][j] = temp2[i][j];
+        }
+        }
+    };
+}
+
+
+install_filter(stack(beside(flip_vertically, color_invert),
+                     beside(copy_image, zoom(2))));
+
+set_dimensions(WIDTH, HEIGHT);
+start();
+// Question 5
+
+const WIDTH = 400;
+const HEIGHT = 300;
+
+function flip_vertically(src, dest) {
+    for (let i = 0; i < HEIGHT; i = i + 1) {
+        for (let j = 0; j < WIDTH; j = j + 1) {
+            for (let k = 0; k < 4; k = k + 1) {
+                dest[i][j][k] = src[HEIGHT - 1 - i][j][k];
+            }
+        }
+    }
+}
+
+function color_invert(src, dest) {
+    for (let i = 0; i < HEIGHT; i = i + 1){
+        for (let j = 0; j < WIDTH; j = j + 1){
+            for (let c = 0; c < 4; c = c + 1) {
+                dest[i][j][c] = c < 3 ? 255 - src[i][j][c] : src[i][j][c];
+            }          
+        }
+    }
+}
+
+function make_image() {
+    const img = [];
+    for (let i = 0; i < HEIGHT; i = i + 1) {
+        const row = [];
+        img[i] = row;
+        for (let j = 0; j < WIDTH; j = j + 1) {
+            const pixel = [];
+            row[j] = pixel;
+            for (let z = 0; z < 4; z = z + 1) {
+                pixel[z] = 255;
+            }
+        }             
+    }
+    return img;
+}
+
+function compose(filter1, filter2) {
+    // your program goes here
+     return (src, dest) => {
+        let temp = make_image();
+        let temp1 = make_image();
+        let temp2 = make_image();
+        filter1(src, temp);
+        for (let i = 0; i < HEIGHT; i = i + 1) {
+            for (let j = 0; j < WIDTH; j = j + 1) {
+        temp1[i][j] = temp[i][j];
+            }
+        }
+        filter2(temp1, temp2);
+         for (let i = 0; i < HEIGHT; i = i + 1) {
+            for (let j = 0; j < WIDTH; j = j + 1) {
+        dest[i][j] = temp2[i][j];
+            }
+         }
+    };
+}
+
+install_filter(compose( flip_vertically, color_invert));
+
+set_dimensions(WIDTH, HEIGHT);
+start();
