@@ -1,0 +1,58 @@
+// Qn 1
+Accessing any array element takes Big-Oh (1) time
+// Qn 2
+Linear search works on unsorted arrays
+// Qn 3
+In each step, binary search halves the remaining portion of the array that needs to be searched
+// Qn 4
+In each run of the inner loop, insertion sort may swap two neighbouring elements
+// Qn 5
+In each iteration of the for loop in function selection_sort, two elements may be swapped
+// Qn 6
+Merge sort runs in Big-Thetha(n) time if the array is already sorted
+// Qn 7
+Memoization avoids repeated calculation of the result of a function applied to the same arguments
+// Qn 8
+function search_cond(A, cond) {
+     const len = array_length(A);
+    // YOUR SOLUTION HERE
+    for (let i = 0; i < len; i = i + 1) {
+        if(cond(A[i]) === true) {
+            return i;
+        } 
+    }
+   return -1;
+}
+// QN 9
+function insert(A, pos, x) {
+    const len = array_length(A);
+    // YOUR SOLUTION HERE
+    for(let i = len; i > pos; i = i - 1) {
+        A[i] = A[i - 1];
+       
+    }
+    A[pos] = x;
+    return A;
+    
+    }
+// Qn 10
+function insertion_sort(A) {
+
+    // YOUR SOLUTION HERE
+    let mem = []; 
+    mem[0] = A[0];
+    const len = array_length(A);
+    for(let i = 1; i < len; i = i + 1) {
+        let x = A[i];
+        let cond = y => y > x;
+        let pos = search_cond(mem, cond);
+        if (pos !== -1) {
+            insert(mem, pos, x);
+        }
+        else {
+            mem[i] = x;
+        }
+    }
+    return mem;
+}
+
