@@ -1,0 +1,58 @@
+// Qn 1
+function reflect_through_y_axis(curve) {
+    return t => (make_point(- x_of(curve(t)), y_of(curve(t))));
+}
+
+
+
+// Test
+
+
+/*function s_generator(pt) {
+     return t => 
+     t < 0.5
+     ? make_point(
+       -0.25 * math_sin(3 * math_PI * (0.5-t)) + x_of(pt),
+       -0.25 * math_cos(3 * math_PI * (0.5-t)) + y_of(pt) + 0.25)
+     : make_point(
+       0.25 * math_sin((1.5 * math_PI * (t - 0.5)) / 0.5) + x_of(pt),
+       0.25 * math_cos((1.5 * math_PI * (t - 0.5)) / 0.5) + y_of(pt) - 0.25)
+       ;
+}
+
+// Test
+ draw_connected_full_view_proportional(200)(reflect_through_y_axis(s_generator(make_point(0, 0))));
+ */
+// Qn 2
+// you can define your own helper
+// functions here
+
+function close(curve) {
+    return t => (t <= 1/ 2 ? curve(2*t) : curve(1-(2*t-1))); 
+}
+
+//test
+
+/*function s_generator(pt) {
+     return t => 
+     t < 0.5
+     ? make_point(
+       -0.25 * math_sin(3 * math_PI * (0.5-t)) + x_of(pt),
+       -0.25 * math_cos(3 * math_PI * (0.5-t)) + y_of(pt) + 0.25)
+     : make_point(
+       0.25 * math_sin((1.5 * math_PI * (t - 0.5)) / 0.5) + x_of(pt),
+       0.25 * math_cos((1.5 * math_PI * (t - 0.5)) / 0.5) + y_of(pt) - 0.25)
+       ;
+}
+
+
+function reflect_through_y_axis(curve) {
+    return t => (make_point(- x_of(curve(t)), y_of(curve(t))));
+}
+
+const my_s_curve = s_generator(make_point(0,0));
+
+// reflecting the s-curve
+draw_connected_full_view_proportional(200) 
+(connect_ends(close(my_s_curve), reflect_through_y_axis(my_s_curve)));
+*/
