@@ -1,0 +1,39 @@
+// Question 1
+
+const WIDTH = 400;
+const HEIGHT = 300;
+
+// any helper functions and constants go here
+		  
+function stellar_motion_detector(src, dest) {
+    // your program
+    for (let i = 0; i < HEIGHT; i = i + 1) {
+        for (let j = 0; j < WIDTH; j = j + 1) {
+            if(src[i][j][0] > 200) {
+            // red
+            src[i][j][0] = 0;
+            //green
+            src[i][j][1] = 0;
+            //blue
+            src[i][j][2] = 255;
+            src[i][j][3] = 255;  
+            }
+    }
+}
+
+ for (let i = 0; i < HEIGHT; i = i + 1) {
+        for (let j = 0; j < WIDTH; j = j + 1) {
+           dest[i][j][0] = src[i][j][0];
+           dest[i][j][1] = src[i][j][1];
+           dest[i][j][2] = src[i][j][2];
+           dest[i][j][3] = src[i][j][3];
+        }
+    }
+}
+
+install_filter(stellar_motion_detector);
+
+set_dimensions(WIDTH, HEIGHT);
+start();
+
+   
