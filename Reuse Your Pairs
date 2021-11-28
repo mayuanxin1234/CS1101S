@@ -1,0 +1,106 @@
+// TASK 1
+
+function d_split_list(xs) {
+
+    // *** Your answer here. ***
+    const mid = math_ceil(length(xs) / 2);
+    let second_half = null;
+    let mem = xs;
+    
+    for(let i = 1; i < mid ; i = i + 1) {
+        mem = tail(mem);
+    }
+    second_half = tail(mem);
+    set_tail(mem, null);
+    
+    return pair(xs, second_half);
+}
+
+// TEST:
+ const my_list1 = list(1, 2, 3, 4, 5, 6);
+ const my_list2 = list(5, 3, 2, 4 ,1);
+ d_split_list(my_list1);
+d_split_list(my_list2);
+// TASK 2
+
+function d_merge(xs, ys) {
+    if (is_null(xs)) {
+        return ys;
+    } else if(is_null(ys)) {
+        return xs;
+    } else if(is_null(xs) && is_null(ys)) {
+        return null;
+    } else  { 
+     let current_xs = xs;
+     let current_ys = ys; 
+      while(!is_null(current_ys)) {
+    if(head(current_xs) <= head(current_ys)) {
+        set_tail(current_xs, d_merge(tail(current_xs), (current_ys)));
+        return current_xs;
+       } else {
+        set_tail(current_ys, d_merge(current_xs, tail(current_ys)));
+         return current_ys;
+             }
+        }
+    }
+}
+ 
+// TEST:
+ const my_list1 = list(2, 4, 5, 9);
+ const my_list2 = list(3, 5, 8);
+ d_merge(my_list1, my_list2);
+ // TASK 3
+
+function d_split_list(xs) {
+    // *** Your answer here. ***
+    const mid = math_ceil(length(xs) / 2);
+    let second_half = null;
+    let mem = xs;
+    
+    for(let i = 1; i < mid ; i = i + 1) {
+        mem = tail(mem);
+    }
+    second_half = tail(mem);
+    set_tail(mem, null);
+    
+    return pair(xs, second_half);
+}
+
+
+function d_merge(xs, ys) {
+    if (is_null(xs)) {
+        return ys;
+    } else if(is_null(ys)) {
+        return xs;
+    } else if(is_null(xs) && is_null(ys)) {
+        return null;
+    } else  { 
+     let current_xs = xs;
+     let current_ys = ys; 
+      while(!is_null(current_ys)) {
+    if(head(current_xs) <= head(current_ys)) {
+        set_tail(current_xs, d_merge(tail(current_xs), (current_ys)));
+        return current_xs;
+       } else {
+        set_tail(current_ys, d_merge(current_xs, tail(current_ys)));
+         return current_ys;
+             }
+        }
+    }
+}
+
+function d_merge_sort(xs) {
+    if(is_null(xs) || is_null(tail(xs))) {
+        return xs;
+    } else {
+    const split_list = d_split_list(xs);
+    const left = head(split_list);
+    const right = tail(split_list);
+    return d_merge(d_merge_sort(left), d_merge_sort(right));
+    
+    }
+}
+
+// TEST:
+ const my_list = list(7, 2, 4, 6, 9, 1, 5, 8, 3, 6);
+ d_merge_sort(my_list);
