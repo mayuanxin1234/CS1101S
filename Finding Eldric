@@ -1,0 +1,54 @@
+// Qn 1
+const left_motor = ev3_motorB();
+const right_motor = ev3_motorC();
+const our_motors = list(left_motor, right_motor);
+// const circumference = 18; // in cm.  measured by going one rotation;
+const speed = 180; // degrees per second
+
+// Very important speech function to check that the robot is alive
+ev3_speak("You'll never catch me Krabs, not when I shift into MAXIMUM OVERDRIVE. HAIYAAA!");
+
+const colorSensor = ev3_colorSensor();  // Attached to left side of robot
+
+display(ev3_connected(colorSensor));
+
+function color_sense_loop() {
+    const color = ev3_reflectedLightIntensity(colorSensor);
+    display(color);
+    ev3_pause(1000);
+    color_sense_loop();
+}
+
+color_sense_loop();
+// Qn 2
+function follow_the_darn_line_CJ() {
+    map(motor => ev3_motorSetSpeed(motor, speed), our_motors);
+    
+    while (true) {
+        if (ev3_reflectedLightIntensity(colorSensor) <= 35) {
+            ev3_motorStop(left_motor);
+            ev3_motorStart(right_motor);
+        } else {
+            ev3_motorStop(right_motor);
+            ev3_motorStart(left_motor);
+        }
+    }
+}
+
+follow_the_darn_line_CJ();
+// Qn 3
+function follow_the_darn_line_CJ() {
+    map(motor => ev3_motorSetSpeed(motor, speed), our_motors);
+    
+    while (true) {
+        if (ev3_reflectedLightIntensity(colorSensor) <= 35) {
+            ev3_motorStop(left_motor);
+            ev3_motorStart(right_motor);
+        } else {
+            ev3_motorStop(right_motor);
+            ev3_motorStart(left_motor);
+        }
+    }
+}
+
+follow_the_darn_line_CJ();
