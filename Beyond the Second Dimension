@@ -1,0 +1,67 @@
+// Qn 1
+function steps(r1, r2, r3, r4) {
+  return overlay(overlay( mosaic(blank, blank, blank, r4),
+      mosaic(blank, blank, r3, blank))
+      ,overlay( mosaic(blank, r2, blank, blank)
+      ,mosaic(r1, blank, blank, blank)));
+}
+
+function mosaic(r1, r2, r3, r4) {
+    return stack(
+        beside(r4,r1), 
+        beside(r3, r2));
+}
+
+
+// Test
+show(steps(rcross, triangle, corner, nova));
+// Qn 2
+/* 
+Creates a 3D Rune from 4 runes as arguments 
+and arranges them in a 2x2 square,
+starting with the top-right corner,
+going clockwise, with each rune having an 
+equal amount of vertical spacing between them.
+From r1 to r4, each rune is stacked on top of the next,
+with rune r1 at the topmost layer.
+*/
+/*
+Parameters  Type   Description
+r1          Rune   Runes such as rcross, triangle, corner, nova
+r2          Rune   Runes such as rcross, triangle, corner, nova
+r3          Rune   Runes such as rcross, triangle, corner, nova
+r4          Rune   Runes such as rcross, triangle, corner, nova
+*/
+/*
+Returns: 
+Consequent Rune
+
+Type:
+Rune
+*/
+
+function steps(r1, r2, r3, r4) {
+  return overlay(overlay( mosaic(blank, blank, blank, r4),
+      mosaic(blank, blank, r3, blank))
+      ,overlay( mosaic(blank, r2, blank, blank)
+      ,mosaic(r1, blank, blank, blank)));
+}
+
+function mosaic(r1, r2, r3, r4) {
+    return stack(
+        beside(r4,r1), 
+        beside(r3, r2));
+}
+
+
+
+show(steps(rcross, triangle, corner, nova));
+// Qn 3
+function cone(n, rune) {
+    return n===1
+    ? rune
+    : overlay_frac((1-1/n),cone(n-1, scale((1-1/n),rune)), rune);
+}
+
+// Test
+show(cone(15, circle));
