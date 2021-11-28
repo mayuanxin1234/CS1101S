@@ -1,0 +1,132 @@
+// Qn 1
+ev3_speak("I'm not the droid you're looking for.");
+//Qn 2
+// Your program here.
+const left_motor = ev3_motorB();
+const right_motor = ev3_motorC();
+const speed = 180; // degrees per second
+const circumference = 18; // in cm.  measured by going one rotation;
+
+function travel_time(distance, circumference, speed) {
+    return 1000 * (360 * (distance / circumference)) / speed;
+}
+
+function move(distance, speed, motors) {
+    map(motor => ev3_motorSetSpeed(motor, speed), motors);
+    const time = travel_time(distance, speed);
+    map(ev3_motorStart, motors);
+    ev3_pause(time);
+    map(ev3_motorStop, motors);
+}
+
+ev3_speak("shopee 10 10");
+ev3_speak("go shopee pee pee pee pee pee pee");
+ev3_speak("buy everything thing thing thing thing thing");
+
+
+ev3_motorSetSpeed(left_motor, speed); //left
+ev3_motorSetStopAction(left_motor, "hold");
+
+ev3_motorSetSpeed(right_motor, speed); //right
+ev3_motorSetStopAction(right_motor, "hold");
+
+move(10, speed, list(left_motor, right_motor));
+// Qn 3
+// Your program here.
+const left_motor = ev3_motorB();
+const right_motor = ev3_motorC();
+const our_motors = list(left_motor, right_motor);
+const circumference = 18; // in cm.  measured by going one rotation;
+const speed = 180; // degrees per second
+
+function initialise_motors(motors) {
+    map(motor => ev3_motorSetSpeed(motor, speed), motors);
+    map(motor => ev3_motorSetStopAction(motor, "hold"), motors);
+}
+
+function travel_time(distance, speed) {
+    return 1000 * (360 * (distance / circumference)) / speed;
+}
+
+// Rotate robot in-place clockwise by angle degrees.
+// Negative angle to rotate anticlockwise
+function rotate(angle, speed, left_motor, right_motor) {
+    const wheel_distance = 13; // in cm. Represents diameter of rotation
+    const motors = list(left_motor, right_motor);
+    if (angle > 0) {
+        ev3_motorSetSpeed(left_motor, speed);
+        ev3_motorSetSpeed(right_motor, -speed);
+    } else {
+        ev3_motorSetSpeed(left_motor, -speed);
+        ev3_motorSetSpeed(right_motor, speed);
+    }
+    const distance = math_PI * wheel_distance * math_abs(angle) / 360;
+    const time = travel_time(distance, speed);
+    map(ev3_motorStart, motors);
+    ev3_pause(time);
+    map(ev3_motorStop, motors);
+}
+
+ev3_speak('You spin me right round baby right round!');
+/*
+ev3_speak("shopee 10 10");
+ev3_speak("go shopee pee pee pee pee pee pee");
+ev3_speak("buy everything thing thing thing thing thing");
+*/
+
+initialise_motors(our_motors);
+
+rotate(-90, speed, left_motor, right_motor);
+// Qn 4
+// Your program here.
+const left_motor = ev3_motorB();
+const right_motor = ev3_motorC();
+const our_motors = list(left_motor, right_motor);
+const circumference = 18; // in cm.  measured by going one rotation;
+const speed = 180; // degrees per second
+
+function initialise_motors(motors) {
+    map(motor => ev3_motorSetStopAction(motor, "hold"), motors);
+}
+
+function travel_time(distance, speed) {
+    return 1000 * (360 * (distance / circumference)) / speed;
+}
+
+function move(distance, speed, motors) {
+    map(motor => ev3_motorSetSpeed(motor, speed), motors);
+    const time = travel_time(distance, speed);
+    map(ev3_motorStart, motors);
+    ev3_pause(time);
+    map(ev3_motorStop, motors);
+}
+
+// Rotate robot in-place clockwise by angle degrees.
+// Negative angle to rotate anticlockwise
+function rotate(angle, speed, left_motor, right_motor) {
+    const wheel_distance = 13; // in cm. Represents diameter of rotation
+    const motors = list(left_motor, right_motor);
+    if (angle > 0) {
+        ev3_motorSetSpeed(left_motor, speed);
+        ev3_motorSetSpeed(right_motor, -speed);
+    } else {
+        ev3_motorSetSpeed(left_motor, -speed);
+        ev3_motorSetSpeed(right_motor, speed);
+    }
+    const distance = math_PI * wheel_distance * math_abs(angle) / 360;
+    const time = travel_time(distance, speed);
+    map(ev3_motorStart, motors);
+    ev3_pause(time);
+    map(ev3_motorStop, motors);
+}
+
+ev3_speak("Beep beep i'm a sheep");
+
+
+initialise_motors(our_motors);
+
+move(10, speed, our_motors);
+rotate(-90, speed, left_motor, right_motor);
+move(5, speed, our_motors);
+rotate(90, speed, left_motor, right_motor);
+move(15, speed, our_motors);
