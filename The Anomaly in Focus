@@ -1,0 +1,344 @@
+// Question 1
+		
+function red_rectangle_stream(s) {
+    // your solution goes here
+  function left_corner (s) {
+    function get_left_corner_i (s) {
+      for (let i = 0; i < HEIGHT; i = i + 1) {
+        for(let j = 0; j < WIDTH; j = j +1) {
+            if ((s)[i][j][0] === 255 
+                && (s)[i][j][1] === 0 
+                && (s)[i][j][2] === 0 
+                && (s)[i][j][3] === 255) {
+                return i;
+                } 
+            } 
+        }
+    }
+     function get_left_corner_j (s) {
+         for(let j = 0; j < WIDTH; j = j +1) {
+            for (let i = 0; i < HEIGHT; i = i + 1) {
+                   if ((s)[i][j][0] === 255 
+                        && (s)[i][j][1] === 0 
+                        && (s)[i][j][2] === 0 
+                        && (s)[i][j][3] === 255) {
+                         return j;
+            } 
+            } 
+        }
+    }
+    return pair(get_left_corner_i(s),get_left_corner_j(s));
+  }
+
+  function right_corner (s) {
+      function get_right_corner_i (s) {
+    for (let i = HEIGHT - 1 ;i >=0; i = i - 1) {
+        for(let j = WIDTH - 1; j >= 0; j = j - 1) {
+         if ((s)[i][j][0] === 255 
+            && (s)[i][j][1] === 0 
+            && (s)[i][j][2] === 0 
+            && (s)[i][j][3] === 255) {
+            return i;
+          }
+        }
+     }
+    }
+    function get_right_corner_j (s) {
+        for(let j = WIDTH - 1; j >= 0; j = j - 1) {
+            for (let i = HEIGHT - 1 ;i >=0; i = i - 1) {
+                 if ((s)[i][j][0] === 255 
+                     && (s)[i][j][1] === 0 
+                     && (s)[i][j][2] === 0 
+                     && (s)[i][j][3] === 255) {
+                     return j;
+              }
+            }
+        }
+    }
+    
+    return pair(get_right_corner_i(s),get_right_corner_j(s));
+  }
+ return stream_map( s => pair(left_corner(s), right_corner(s)), s);
+}
+
+ head(red_rectangle_stream((anomaly_stream)));
+// should evaluate to: [[141, 191], [159, 209]]
+
+
+
+
+// Question 2
+
+function red_rectangle_stream(s) {
+    // your solution goes here
+  function left_corner (s) {
+    function get_left_corner_i (s) {
+      for (let i = 0; i < HEIGHT; i = i + 1) {
+        for(let j = 0; j < WIDTH; j = j +1) {
+            if ((s)[i][j][0] === 255 
+                && (s)[i][j][1] === 0 
+                && (s)[i][j][2] === 0 
+                && (s)[i][j][3] === 255) {
+                return i;
+                } 
+            } 
+        }
+    }
+     function get_left_corner_j (s) {
+         for(let j = 0; j < WIDTH; j = j +1) {
+            for (let i = 0; i < HEIGHT; i = i + 1) {
+                   if ((s)[i][j][0] === 255 
+                        && (s)[i][j][1] === 0 
+                        && (s)[i][j][2] === 0 
+                        && (s)[i][j][3] === 255) {
+                         return j;
+            } 
+            } 
+        }
+    }
+    return pair(get_left_corner_i(s),get_left_corner_j(s));
+  }
+
+  function right_corner (s) {
+      function get_right_corner_i (s) {
+    for (let i = HEIGHT - 1 ;i >=0; i = i - 1) {
+        for(let j = WIDTH - 1; j >= 0; j = j - 1) {
+         if ((s)[i][j][0] === 255 
+            && (s)[i][j][1] === 0 
+            && (s)[i][j][2] === 0 
+            && (s)[i][j][3] === 255) {
+            return i;
+          }
+        }
+     }
+    }
+    function get_right_corner_j (s) {
+        for(let j = WIDTH - 1; j >= 0; j = j - 1) {
+            for (let i = HEIGHT - 1 ;i >=0; i = i - 1) {
+                 if ((s)[i][j][0] === 255 
+                     && (s)[i][j][1] === 0 
+                     && (s)[i][j][2] === 0 
+                     && (s)[i][j][3] === 255) {
+                     return j;
+              }
+            }
+        }
+    }
+    
+    return pair(get_right_corner_i(s),get_right_corner_j(s));
+ }
+ return stream_map( s => pair(left_corner(s), right_corner(s)), s);
+}
+
+function stream_combine(f, s1, s2) {
+    return pair(f(head(s1), head(s2)), 
+            () => stream_combine(f, stream_tail(s1), stream_tail(s2)));
+
+}
+
+// trim the given image using the given rectangle
+// returns an image that includes all purely red
+// pixels of the given image
+
+function trim(image, rectangle) {
+    const trimmed = [];
+    const i_min = head(head(rectangle));
+    const j_min = tail(head(rectangle));
+    const i_max = head(tail(rectangle));
+    const j_max = tail(tail(rectangle));
+    
+    for (let i = i_min; i <= i_max; i = i + 1) {
+        const new_i = i - i_min;
+        trimmed[new_i] = [];
+        for (let j = j_min; j <= j_max; j = j + 1) {
+            const new_j = j - j_min;
+            trimmed[new_i][new_j] = image[i][j];
+        }
+    }
+    return trimmed;
+}
+
+// Example:
+
+const focused_stream = stream_combine(
+                           trim,
+                           anomaly_stream,
+                           red_rectangle_stream(anomaly_stream));
+                           
+head(focused_stream);
+			   
+// should return a close-up of the anomaly, a 19x19 image of black,
+// red and white pixels
+function check(s) {
+    const red = [255, 0, 0, 255];
+    const white =[0, 0, 0, 255];
+    const black = [0, 0, 0, 255];
+    function check_array(a_1, a_2) {
+        for (let i = 0; i < array_length(a_1); i = i + 1) {
+            if(a_1[i] !== a_2[i]) {
+                return true;
+            } 
+        }
+        return false; 
+    }
+    for(let i = 0; i < array_length(s); i = i + 1) {
+        for(let j = 0; j < array_length(s[0]); j = j + 1) {
+            if(//s[i][j][0] !== 255 
+                check_array(s[i][j], red) 
+          // && s[i][j][0] !== s[i][j][1] 
+           //  && s[i][j][1] !== s[i][j][2] 
+           && check_array(s[i][j], white) 
+         && check_array(s[i][j], black)
+        //  s[i][j][2] !== 255
+     //     && s[i][j][2] !== 0
+         ) {
+               return true;
+            } 
+        }
+    }
+    return false;
+}
+
+eval_stream(stream_filter(check, focused_stream), 8);
+
+ 
+/*
+
+Color:       [255, 255, 235 255]
+Target:      focused_stream[8][8]
+
+Process:     Creating a new function check and applying it as the predicate to
+             check through focused stream, we can find the pixel that is not
+             a star, red, black or white and its location.
+
+*/
+function red_rectangle_stream(s) {
+    // your solution goes here
+  function left_corner (s) {
+    function get_left_corner_i (s) {
+      for (let i = 0; i < HEIGHT; i = i + 1) {
+        for(let j = 0; j < WIDTH; j = j +1) {
+            if ((s)[i][j][0] === 255 
+                && (s)[i][j][1] === 0 
+                && (s)[i][j][2] === 0 
+                && (s)[i][j][3] === 255) {
+                return i;
+                } 
+            } 
+        }
+    }
+     function get_left_corner_j (s) {
+         for(let j = 0; j < WIDTH; j = j +1) {
+            for (let i = 0; i < HEIGHT; i = i + 1) {
+                   if ((s)[i][j][0] === 255 
+                        && (s)[i][j][1] === 0 
+                        && (s)[i][j][2] === 0 
+                        && (s)[i][j][3] === 255) {
+                         return j;
+            } 
+            } 
+        }
+    }
+    return pair(get_left_corner_i(s),get_left_corner_j(s));
+  }
+
+  function right_corner (s) {
+      function get_right_corner_i (s) {
+    for (let i = HEIGHT - 1 ;i >=0; i = i - 1) {
+        for(let j = WIDTH - 1; j >= 0; j = j - 1) {
+         if ((s)[i][j][0] === 255 
+            && (s)[i][j][1] === 0 
+            && (s)[i][j][2] === 0 
+            && (s)[i][j][3] === 255) {
+            return i;
+          }
+        }
+     }
+    }
+    function get_right_corner_j (s) {
+        for(let j = WIDTH - 1; j >= 0; j = j - 1) {
+            for (let i = HEIGHT - 1 ;i >=0; i = i - 1) {
+                 if ((s)[i][j][0] === 255 
+                     && (s)[i][j][1] === 0 
+                     && (s)[i][j][2] === 0 
+                     && (s)[i][j][3] === 255) {
+                     return j;
+              }
+            }
+        }
+    }
+    
+    return pair(get_right_corner_i(s),get_right_corner_j(s));
+ }
+ return stream_map( s => pair(left_corner(s), right_corner(s)), s);
+}
+
+function stream_combine(f, s1, s2) {
+    return pair(f(head(s1), head(s2)), 
+            () => stream_combine(f, stream_tail(s1), stream_tail(s2)));
+
+}
+
+// trim the given image using the given rectangle
+// returns an image that includes all purely red
+// pixels of the given image
+
+function trim(image, rectangle) {
+    const trimmed = [];
+    const i_min = head(head(rectangle));
+    const j_min = tail(head(rectangle));
+    const i_max = head(tail(rectangle));
+    const j_max = tail(tail(rectangle));
+    
+    for (let i = i_min; i <= i_max; i = i + 1) {
+        const new_i = i - i_min;
+        trimmed[new_i] = [];
+        for (let j = j_min; j <= j_max; j = j + 1) {
+            const new_j = j - j_min;
+            trimmed[new_i][new_j] = image[i][j];
+        }
+    }
+    return trimmed;
+}
+
+// Example:
+
+const focused_stream = stream_combine(
+                           trim,
+                           anomaly_stream,
+                           red_rectangle_stream(anomaly_stream));
+                           
+function check(s) {
+    const red = [255, 0, 0, 255];
+    const white =[0, 0, 0, 255];
+    const black = [0, 0, 0, 255];
+    function check_array(a_1, a_2) {
+        for (let i = 0; i < array_length(a_1); i = i + 1) {
+            if(a_1[i] !== a_2[i]) {
+                return true;
+            } 
+        }
+        return false; 
+    }
+    for(let i = 0; i < array_length(s); i = i + 1) {
+        for(let j = 0; j < array_length(s[0]); j = j + 1) {
+            if(//s[i][j][0] !== 255 
+                check_array(s[i][j], red) 
+          // && s[i][j][0] !== s[i][j][1] 
+           //  && s[i][j][1] !== s[i][j][2] 
+           && check_array(s[i][j], white) 
+         && check_array(s[i][j], black)
+        //  s[i][j][2] !== 255
+     //     && s[i][j][2] !== 0
+         ) {
+               return true;
+            } 
+        }
+    }
+    return false;
+}
+
+eval_stream(stream_filter(check, focused_stream), 8);
+
+
+
