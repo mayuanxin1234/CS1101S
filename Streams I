@@ -1,0 +1,35 @@
+// Qn 1
+This function returns a stream when applies to no arguments
+// Qn 2
+One window pops up and after a button is pressed, prompt_stream refers to a stream
+// Qn 3
+The program successively pops up three windows and returns the last entered string
+// Qn 4
+The program keeps popping up new windows and never returns a value
+// Qn 5
+No
+// Qn 6
+function n_of_n_stream() {
+    // YOUR SOLUTION HERE
+    function helper(a, b) {
+        if (b <= 0) {
+            return helper(a + 1, a + 1); 
+        } else {
+            return pair(a, () => helper(a, b -1));
+        }
+    }
+    return helper(1,1);
+}
+// QN 7
+function shorten_stream(s, k) {
+    // YOUR SOLUTION HERE
+    return k === 0
+           ? null
+           : s === null
+           ? null
+           : pair(head(s), () => shorten_stream(stream_tail(s), k - 1));
+}
+
+function stream_tail(stream) {
+return tail(stream)();
+}
