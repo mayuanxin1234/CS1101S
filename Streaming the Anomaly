@@ -1,0 +1,146 @@
+// Question 1
+		
+function array_to_stream(a) {
+    const len = array_length(a);
+    function helper(i) {
+        if (i >= len) {
+            return null;
+        }
+        else {
+          return pair(a[i], () => helper(i + 1));
+        }
+    }
+return helper(0);
+}
+
+
+display(array_length(anomaly_data) ===
+       stream_length(array_to_stream(anomaly_data)));
+display(anomaly_data[7] === 
+       stream_ref(array_to_stream(anomaly_data), 7));
+      // Question 2
+
+function array_to_stream(a) {
+    const len = array_length(a);
+    function helper(i) {
+        if (i >= len) {
+            return null;
+        }
+        else {
+          return pair(a[i], () => helper(i + 1));
+        }
+    }
+return helper(0);
+}
+
+function stream_to_filter(s) {
+    let b = s;
+  function filter(src, dest)  {
+      if (is_null(stream_tail(b))) {
+          return b;
+      } else {
+      copy_image(head(b), dest);
+      b = stream_tail(b);
+  }
+  }
+  
+   return filter;
+}
+
+
+
+install_filter(stream_to_filter(array_to_stream(anomaly_data)));
+
+set_dimensions(WIDTH, HEIGHT);
+
+start();
+
+  
+
+// Question 3
+
+function array_to_stream(a) {
+    const len = array_length(a);
+    function helper(i) {
+        if (i >= len) {
+            return null;
+        }
+        else {
+          return pair(a[i], () => helper(i + 1));
+        }
+    }
+return helper(0);
+}
+function stream_to_filter(s) {
+    let b = s;
+  function filter(src, dest)  {
+      if (is_null(stream_tail(b))) {
+          return b;
+      } else {
+      copy_image(head(b), dest);
+      b = stream_tail(b);
+  }
+  }
+  
+   return filter;
+}
+function loop(s) {
+  return pair(head(s), () => loop(stream_append(stream_tail(s), s)));
+}
+
+install_filter(
+    stream_to_filter(
+        loop(array_to_stream(anomaly_data))));
+
+set_dimensions(WIDTH, HEIGHT);
+
+start();
+// Question 4
+
+function array_to_stream(a) {
+    const len = array_length(a);
+    function helper(i) {
+        if (i >= len) {
+            return null;
+        }
+        else {
+          return pair(a[i], () => helper(i + 1));
+        }
+    }
+return helper(0);
+}
+function stream_to_filter(s) {
+    let b = s;
+  function filter(src, dest)  {
+      if (is_null(stream_tail(b))) {
+          return b;
+      } else {
+      copy_image(head(b), dest);
+      b = stream_tail(b);
+  }
+  }
+  
+   return filter;
+}
+function loop(s) {
+  return pair(head(s), () => loop(stream_append(stream_tail(s), s)));
+}
+
+function time_lapse(s, n) {
+    // your solution goes here
+        return pair(head(s), () => { for (let i = 1; i <= n; i = i + 1) {
+            s = stream_tail(s);
+             }
+             return time_lapse(s,n);
+        }
+    );
+}
+
+install_filter(
+    stream_to_filter(
+        time_lapse(loop(array_to_stream(anomaly_data)),
+                   3)));
+
+set_dimensions(WIDTH, HEIGHT);
+
+start();
