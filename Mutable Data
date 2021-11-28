@@ -1,0 +1,20 @@
+// Qn 1
+Error, because it is trying to assign value to the constant x in the statement x = 1;.
+// Qn 2
+2
+// Qn 3
+2
+// Qn 4
+3
+// Qn 5
+15
+// Qn 6
+Error, because it is trying to assign value to the constant p in the statement p = pair(3,4);.
+// Qn 7
+[3, [1, 2]]
+// Qn 8
+[[1,2], 4]
+//Qn 9
+Assignments to the name my_p are possible, using my_p = pair(3,4);.
+// Qn 10
+A cyclic list of elements 1,2,3.
