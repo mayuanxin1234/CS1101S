@@ -1,0 +1,75 @@
+// Qn 1
+[1,8,3,4,5]
+// Qn 2
+11
+// Qn 3
+true, false, false
+// Qn 4
+[1,2,8,4,5]
+// Qn 5
+A[3][0][2]
+// Qn 6
+0 2 4 6
+// QN 7
+Error, because name x is not declared
+// Qn 8
+15
+// Qn 9
+function dot_product(A, B) {
+    // YOUR SOLUTION HERE
+    let sum = 0; 
+    for (let i = 0; i < array_length(A); i = i + 1) {
+        sum = sum + A[i] * B[i];
+    }
+    return sum; 
+}
+// Qn 10
+function accumulate_array(op, init, A) {
+    // YOUR SOLUTION HERE
+    let result = 0;
+   for (let i = 0; i < array_length(A); i = i + 1) {
+       if (i ===0) {
+           result = op(init, A[0]);
+       }
+       else { 
+           result = op(result, A[i]);
+   }
+   }
+   return result; 
+}
+// Qn 11
+function filter_array(pred, A) {
+    // YOUR SOLUTION HERE
+    let result = []; 
+    for (let i = 0 ; i < array_length(A); i = i + 1) {
+        if (pred(A[i])) {
+            result[array_length(result)] = A[i];
+        }
+    }
+    return result; 
+}
+// Qn 12
+function transpose(M) {
+    // YOUR SOLUTION HERE
+    let row = array_length(M);
+    let column = array_length(M[0]);
+    let result = [];
+    for (let c = 0; c < column; c = c + 1) {
+        result[c] = [];
+        for (let r = 0; r < row; r = r + 1) {
+            result[c][r] = M[r][c];
+            
+        }
+    }
+    return result; 
+}
+
+
+
+
+
+
+
+
+
+
